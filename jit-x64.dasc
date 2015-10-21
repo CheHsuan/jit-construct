@@ -66,10 +66,32 @@ int main(int argc, char *argv[])
                 }
                 break;
             case '+':
-                |  inc  byte [PTR]
+                if(*(p+1) == '+') {
+                    while(*(p+1) == '+') {
+                        //|  inc  byte [PTR]
+                        count++;
+                        p++;
+                    }
+                    //| inc byte [PTR]
+                    count++;
+                    | add byte [PTR], count
+                    count = 0;
+                } else {
+                    |  inc  byte [PTR]
+                }
                 break;
             case '-':
-                |  dec  byte [PTR]
+                if(*(p+1) == '-') {
+                    while(*(p+1) == '-') {
+                        count++;
+                        p++;
+                    }
+                    count++;
+                    | sub  byte [PTR], count
+                    count = 0;
+                } else {
+                    |  dec  byte [PTR]
+                }
                 break;
             case '.':
                 |  movzx edi, byte [PTR]
